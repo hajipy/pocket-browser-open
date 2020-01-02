@@ -9,6 +9,7 @@
   "license": "MIT",
   "devDependencies": {
     "commander": "4.0.x",
+    "dotenv": "8.2.x",
     "ts-node": "8.5.x",
     "typescript": "3.7.x"
   }
