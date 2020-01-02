@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "commander": "4.0.x",
     "typescript": "3.7.x"
   }
 }
