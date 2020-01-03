@@ -27,7 +27,7 @@ export class PocketAuth {
             }
         );
 
-        return response.data.code as string;
+        return response.data.code;
     }
 
     public async openAuthPageInBrowser(requestToken: string): Promise<void> {
@@ -55,5 +55,19 @@ export class PocketAuth {
             });
             this.webServer = this.webApp.listen(3000);
         })
+    }
+
+    public async exchangeRequestTokenToAccessToken(requestToken: string): Promise<string> {
+        const response = await axios.post("https://getpocket.com/v3/oauth/authorize",
+            {
+                code: requestToken,
+                consumer_key: this.consumerKey
+            },
+            {
+                headers: { "X-Accept": "application/json" }
+            }
+        );
+
+        return response.data.access_token;
     }
 }

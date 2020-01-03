@@ -11,4 +11,7 @@ import { PocketAuth } from "./pocketAuth";
     const requestToken = await pocketAuth.getRequestToken();
     await pocketAuth.openAuthPageInBrowser(requestToken);
     await pocketAuth.waitAuthorizeRequestToken();
+    const accessToken = await pocketAuth.exchangeRequestTokenToAccessToken(requestToken);
+    console.log(`requestToken=${requestToken}`);
+    console.log(`accessToken=${accessToken}`);
 })();
