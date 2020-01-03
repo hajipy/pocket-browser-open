@@ -8,8 +8,7 @@ import { PocketAuth } from "./pocketAuth";
     }
 
     const pocketAuth = new PocketAuth(process.env.POCKET_CONSUMER_KEY);
-
     const requestToken = await pocketAuth.getRequestToken();
-
     await pocketAuth.openAuthPageInBrowser(requestToken);
+    await pocketAuth.waitAuthorizeRequestToken();
 })();

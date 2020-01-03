@@ -3,9 +3,14 @@ import * as url from "url";
 import * as querystring from "querystring";
 
 import * as open from "open";
+import * as Koa from "koa";
+import { Server } from "http";
 
 export class PocketAuth {
     protected static readonly redirectUri = "http://localhost:3000/";
+
+    protected webApp: Koa;
+    protected webServer: Server;
 
     public constructor(protected consumerKey: string) {
     }
@@ -38,5 +43,17 @@ export class PocketAuth {
         });
 
         await open(authUrl);
+    }
+
+    public async waitAuthorizeRequestToken(): Promise<void> {
+        return new Promise<void>((resolve) => {
+            this.webApp = new Koa();
+            this.webApp.use((ctx) => {
+                ctx.response.body = "<html lang='en'><body><script>window.close();</script></body></html>";
+                this.webServer.close();
+                resolve();
+            });
+            this.webServer = this.webApp.listen(3000);
+        })
     }
 }
