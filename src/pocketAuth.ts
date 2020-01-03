@@ -1,4 +1,8 @@
 import axios from "axios";
+import * as url from "url";
+import * as querystring from "querystring";
+
+import * as open from "open";
 
 export class PocketAuth {
     protected static readonly redirectUri = "http://localhost:3000/";
@@ -19,5 +23,20 @@ export class PocketAuth {
         );
 
         return response.data.code as string;
+    }
+
+    public async openAuthPageInBrowser(requestToken: string): Promise<void> {
+        const authUrl = url.format({
+            hostname: "getpocket.com",
+            pathname: "/auth/authorize",
+            protocol: "https",
+            search: querystring.stringify({
+                redirect_uri: PocketAuth.redirectUri,
+                request_token: requestToken
+            }),
+            slashes: true,
+        });
+
+        await open(authUrl);
     }
 }
