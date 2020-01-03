@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/koa": "2.11.x",
     "@types/node": "*",
     "dotenv": "8.2.x",
     "ts-node": "8.5.x",
