@@ -30,23 +30,8 @@ export class PocketAuth {
         return response.data.code;
     }
 
-    public async openAuthPageInBrowser(requestToken: string): Promise<void> {
-        const authUrl = url.format({
-            hostname: "getpocket.com",
-            pathname: "/auth/authorize",
-            protocol: "https",
-            search: querystring.stringify({
-                redirect_uri: PocketAuth.redirectUri,
-                request_token: requestToken
-            }),
-            slashes: true,
-        });
-
-        await open(authUrl);
-    }
-
-    public async waitAuthorizeRequestToken(): Promise<void> {
-        return new Promise<void>((resolve) => {
+    public async authorizeRequestToken(requestToken: string): Promise<void> {
+        return new Promise<void>(async (resolve) => {
             this.webApp = new Koa();
             this.webApp.use((ctx) => {
                 ctx.response.body = "<html lang='en'><body><script>window.close();</script></body></html>";
@@ -54,7 +39,20 @@ export class PocketAuth {
                 resolve();
             });
             this.webServer = this.webApp.listen(3000);
-        })
+
+            const authUrl = url.format({
+                hostname: "getpocket.com",
+                pathname: "/auth/authorize",
+                protocol: "https",
+                search: querystring.stringify({
+                    redirect_uri: PocketAuth.redirectUri,
+                    request_token: requestToken
+                }),
+                slashes: true,
+            });
+
+            await open(authUrl);
+        });
     }
 
     public async exchangeRequestTokenToAccessToken(requestToken: string): Promise<string> {
