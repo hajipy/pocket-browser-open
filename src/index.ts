@@ -1,4 +1,5 @@
 import { PocketAuth } from "./pocketAuth";
+import { PocketGateway } from "./pocketGateway";
 
 (async () => {
     if (process.env.POCKET_CONSUMER_KEY === undefined) {
@@ -14,6 +15,13 @@ import { PocketAuth } from "./pocketAuth";
         const accessToken = await pocketAuth.exchangeRequestTokenToAccessToken(requestToken);
         console.log(`requestToken=${requestToken}`);
         console.log(`accessToken=${accessToken}`);
+
+        const pocketGateway = new PocketGateway(process.env.POCKET_CONSUMER_KEY);
+        await pocketGateway.retrieve({
+            accessToken,
+            state: "unread",
+            since: new Date(2020, 0, 1),
+        });
     }
     catch (error) {
         console.error(error);
