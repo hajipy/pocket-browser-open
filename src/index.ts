@@ -13,15 +13,19 @@ import { PocketGateway } from "./pocketGateway";
         const requestToken = await pocketAuth.getRequestToken();
         await pocketAuth.authorizeRequestToken(requestToken);
         const accessToken = await pocketAuth.exchangeRequestTokenToAccessToken(requestToken);
-        console.log(`requestToken=${requestToken}`);
-        console.log(`accessToken=${accessToken}`);
 
         const pocketGateway = new PocketGateway(process.env.POCKET_CONSUMER_KEY);
-        await pocketGateway.retrieve({
+        const items = await pocketGateway.retrieve({
             accessToken,
             state: "unread",
             since: new Date(2020, 0, 1),
         });
+        if (items.length > 0) {
+            console.log(JSON.stringify(items[0], null, 4));
+        }
+        else {
+            console.log("no item.");
+        }
     }
     catch (error) {
         console.error(error);

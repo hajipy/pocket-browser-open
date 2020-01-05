@@ -1,5 +1,7 @@
 import axios from "axios";
 import { RawPocketItem } from "./rawPocketItem";
+import { sanitize } from "./pocketItemSanitizer";
+import { PocketItem } from "./pocketItem";
 
 export interface RetrieveOptions {
     accessToken: string;
@@ -19,7 +21,7 @@ export interface RetrieveOptions {
 export class PocketGateway {
     public constructor(protected consumerKey: string) {}
 
-    public async retrieve(options: RetrieveOptions): Promise<void> {
+    public async retrieve(options: RetrieveOptions): Promise<PocketItem[]> {
         const since: string | undefined =
             (options.since !== undefined)
             ? Math.floor(options.since.getTime() / 1000).toString()
@@ -38,13 +40,7 @@ export class PocketGateway {
             }
         );
 
-        const rawArticles: RawPocketItem[] = Object.values(response.data.list);
-        console.log(JSON.stringify(rawArticles, null, 4));
-        if (rawArticles.length > 0) {
-            console.log(JSON.stringify(rawArticles[0], null, 4));
-        }
-        else {
-            console.log("no item.");
-        }
+        const rawItems: RawPocketItem[] = Object.values(response.data.list);
+        return rawItems.map(sanitize);
     }
 }
