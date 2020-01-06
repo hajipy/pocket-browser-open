@@ -6,7 +6,8 @@ import { PocketGateway } from "./pocketGateway";
 (async () => {
     const program = new commander.Command();
     program
-        .option("-d, --host <host>", "Only open items from particular host.");
+        .option("-d, --host <host>", "Only open items from particular host.")
+        .option("-n, --count <count>", "Open items count.");
 
     program.parse(process.argv);
 
@@ -27,13 +28,9 @@ import { PocketGateway } from "./pocketGateway";
             accessToken,
             state: "unread",
             domain: program.host,
+            count: program.count,
         });
-        if (items.length > 0) {
-            console.log(JSON.stringify(items[0], null, 4));
-        }
-        else {
-            console.log("no item.");
-        }
+        console.log(JSON.stringify(items.map((item) => item.resolvedUrl), null, 4));
     }
     catch (error) {
         console.error(error);
