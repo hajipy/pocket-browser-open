@@ -26,7 +26,6 @@ import { PocketGateway } from "./pocketGateway";
         const items = await pocketGateway.retrieve({
             accessToken,
             state: "unread",
-            since: new Date(2020, 0, 1),
             domain: program.host,
         });
         if (items.length > 0) {
