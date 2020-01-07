@@ -1,4 +1,5 @@
 import * as commander from "commander";
+import * as open from "open";
 
 import { PocketAuth } from "./pocketAuth";
 import { PocketGateway } from "./pocketGateway";
@@ -31,6 +32,10 @@ import { PocketGateway } from "./pocketGateway";
             count: program.count,
         });
         console.log(JSON.stringify(items.map((item) => item.resolvedUrl), null, 4));
+
+        for (const item of items) {
+            await open(item.resolvedUrl);
+        }
     }
     catch (error) {
         console.error(error);
