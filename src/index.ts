@@ -8,7 +8,7 @@ import { PocketGateway } from "./pocketGateway";
     const program = new commander.Command();
     program
         .option("-d, --host <host>", "Only open items from particular host.")
-        .option("-n, --count <count>", "Open items count.");
+        .option("-n, --count <count>", "Open items count.", 10);
 
     program.parse(process.argv);
 
