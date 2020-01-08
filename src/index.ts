@@ -32,7 +32,6 @@ import { PocketItem } from "./pocketItem";
             domain: program.host,
             count: program.count,
         });
-        console.log(JSON.stringify(items.map((item) => item.resolvedUrl), null, 4));
 
         for (const item of items) {
             await open(item.resolvedUrl);
