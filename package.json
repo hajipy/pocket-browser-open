@@ -1,7 +1,9 @@
 {
   "name": "pocket-browser-open",
   "version": "0.0.1",
-  "main": "index.js",
+  "bin": {
+    "pocket-browser-open": "dist/index.js"
+  },
   "author": {
     "name": "Kenichi Saito",
     "email": "hajime@studiohff.net"
