@@ -1,5 +1,5 @@
 import * as commander from "commander";
-import * as open from "open";
+import open from "open";
 
 import { PocketAuth } from "./pocketAuth";
 import { PocketGateway } from "./pocketGateway";

@@ -2,15 +2,15 @@ import axios from "axios";
 import * as url from "url";
 import * as querystring from "querystring";
 
-import * as open from "open";
-import * as Koa from "koa";
+import open from "open";
+import { default as KoaApplication } from "koa";
 import { Server } from "http";
 
 export class PocketAuth {
     protected static readonly redirectUri = "http://localhost:3000/";
 
-    protected webApp: Koa;
-    protected webServer: Server;
+    protected webApp: KoaApplication | undefined;
+    protected webServer: Server | undefined;
 
     public constructor(protected consumerKey: string) {
     }
@@ -54,10 +54,10 @@ export class PocketAuth {
 
     public async authorizeRequestToken(requestToken: string): Promise<void> {
         return new Promise<void>(async (resolve) => {
-            this.webApp = new Koa();
+            this.webApp = new KoaApplication();
             this.webApp.use((ctx) => {
                 ctx.response.body = "<html lang='en'><body><script>window.close();</script></body></html>";
-                this.webServer.close();
+                this.webServer!.close();
                 resolve();
             });
             this.webServer = this.webApp.listen(3000);
