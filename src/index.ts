@@ -3,6 +3,7 @@ import * as open from "open";
 
 import { PocketAuth } from "./pocketAuth";
 import { PocketGateway } from "./pocketGateway";
+import { PocketItem } from "./pocketItem";
 
 (async () => {
     const program = new commander.Command();
@@ -35,6 +36,26 @@ import { PocketGateway } from "./pocketGateway";
 
         for (const item of items) {
             await open(item.resolvedUrl);
+        }
+
+        const results = await pocketGateway.archive({
+            accessToken,
+            itemIds: items.map((item) => item.itemId),
+            time: new Date(),
+        });
+        const errorItems = results.reduce(
+            (accumulator, currentValue, currentIndex) => {
+                return currentValue ? accumulator : [...accumulator, items[currentIndex]];
+            },
+            [] as PocketItem[],
+        );
+        if (errorItems.length > 0) {
+            console.error("Archiving item is failed.");
+            for (const item of errorItems) {
+                console.error(`    itemId:${item.itemId}`);
+            }
+            process.exit(1);
+            return;
         }
     }
     catch (error) {

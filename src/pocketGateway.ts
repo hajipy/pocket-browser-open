@@ -18,13 +18,23 @@ export interface RetrieveOptions {
     offset?: number;
 }
 
+export interface ArchiveOptions {
+    accessToken: string;
+    itemIds: number[];
+    time: Date;
+}
+
+function convertDateToUnixTime(aDate: Date): string {
+    return Math.floor(aDate.getTime() / 1000).toString();
+}
+
 export class PocketGateway {
     public constructor(protected consumerKey: string) {}
 
     public async retrieve(options: RetrieveOptions): Promise<PocketItem[]> {
         const since: string | undefined =
             (options.since !== undefined)
-            ? Math.floor(options.since.getTime() / 1000).toString()
+            ? convertDateToUnixTime(options.since)
             : undefined;
         const data = {
             consumer_key: this.consumerKey,
@@ -42,5 +52,29 @@ export class PocketGateway {
 
         const rawItems: RawPocketItem[] = Object.values(response.data.list);
         return rawItems.map(sanitize);
+    }
+
+    public async archive(options: ArchiveOptions): Promise<boolean[]> {
+        const time = convertDateToUnixTime(options.time);
+        const actions = options.itemIds.map((itemId) => {
+            return {
+                action: "archive",
+                item_id: itemId,
+                time,
+            };
+        });
+        const data = {
+            consumer_key: this.consumerKey,
+            access_token: options.accessToken,
+            actions,
+        };
+        const response = await axios.post(
+            "https://getpocket.com/v3/send",
+            data,
+            {
+                headers: { "Content-Type": "application/json" },
+            }
+        );
+        return response.data.action_results;
     }
 }
