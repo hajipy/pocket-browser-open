@@ -12,7 +12,6 @@
   "devDependencies": {
     "@types/koa": "2.11.x",
     "@types/node": "*",
-    "dotenv": "8.2.x",
     "typescript": "3.7.x"
   },
   "dependencies": {
