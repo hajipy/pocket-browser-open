@@ -18,7 +18,7 @@ const pocketGateway_1 = require("./pocketGateway");
 (async () => {
     const program = new commander.Command();
     program
-        .option("-d, --host <host>", "Only open items from particular host.")
+        .option("-h, --host <host>", "Only open items from particular host.")
         .option("-n, --count <count>", "Open items count.", 10);
     program.parse(process.argv);
     if (process.env.POCKET_CONSUMER_KEY === undefined) {

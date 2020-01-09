@@ -10,7 +10,7 @@ import { PocketItem } from "./pocketItem";
 (async () => {
     const program = new commander.Command();
     program
-        .option("-d, --host <host>", "Only open items from particular host.")
+        .option("-h, --host <host>", "Only open items from particular host.")
         .option("-n, --count <count>", "Open items count.", 10);
 
     program.parse(process.argv);
