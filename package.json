@@ -15,7 +15,7 @@
     "typescript": "3.7.x"
   },
   "dependencies": {
-    "axios": "0.19.x",
+    "axios": "0.21.x",
     "commander": "4.0.x",
     "koa": "2.11.x",
     "open": "7.0.x"
