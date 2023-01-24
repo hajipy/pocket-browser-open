@@ -36,7 +36,7 @@ import { PocketItem } from "./pocketItem";
         });
 
         for (const item of items) {
-            await open(item.resolvedUrl);
+            await open(item.givenUrl);
         }
 
         const results = await pocketGateway.archive({

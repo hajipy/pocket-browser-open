@@ -39,7 +39,7 @@ const pocketGateway_1 = require("./pocketGateway");
             count: program.count,
         });
         for (const item of items) {
-            await open_1.default(item.resolvedUrl);
+            await open_1.default(item.givenUrl);
         }
         const results = await pocketGateway.archive({
             accessToken,
